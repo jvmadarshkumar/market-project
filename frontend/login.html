@@ -86,6 +86,9 @@
             <label class="form-label" for="login-password">Password</label>
             <input class="form-control" type="password" id="login-password" placeholder="••••••••" required />
           </div>
+          <div style="text-align: right; margin-top: -8px; margin-bottom: 12px;">
+            <a href="#" onclick="switchTab('forgot-password')" style="font-size: 0.8rem; color: var(--accent);">Forgot password?</a>
+          </div>
           <p id="login-error" class="form-error" style="margin-bottom:12px;"></p>
           <button type="submit" class="btn btn-primary" style="width:100%" id="login-submit">Login</button>
         </form>
@@ -117,6 +120,74 @@
         </form>
         <p style="text-align:center; margin-top:16px; font-size:0.85rem; color:var(--text-muted)">
           Already have an account? <a href="#" onclick="switchTab('login')" style="color:var(--accent); font-weight:600;">Login</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- ── OTP Verification Form ── -->
+    <div id="form-verify-otp" style="display:none;">
+      <div class="card">
+        <h2 class="card-title" style="margin-bottom:8px;">Verify your email ✉️</h2>
+        <p style="color:var(--text-muted); font-size:0.83rem; margin-bottom:18px;">
+          We've sent a 6-digit OTP to your email. Please enter it below.
+        </p>
+        <form id="verify-otp-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="otp-code">6-Digit OTP</label>
+            <input class="form-control" type="text" id="otp-code" placeholder="123456" maxlength="6" required />
+          </div>
+          <p id="otp-error" class="form-error" style="margin-bottom:12px;"></p>
+          <button type="submit" class="btn btn-primary" style="width:100%" id="otp-submit">Verify Account</button>
+        </form>
+        <p style="text-align:center; margin-top:16px; font-size:0.85rem; color:var(--text-muted)">
+          <a href="#" onclick="switchTab('login')" style="color:var(--accent); font-weight:600;">Back to Login</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Forgot Password Form ── -->
+    <div id="form-forgot-password" style="display:none;">
+      <div class="card">
+        <h2 class="card-title" style="margin-bottom:8px;">Reset Password 🔒</h2>
+        <p style="color:var(--text-muted); font-size:0.83rem; margin-bottom:18px;">
+          Enter your registered email address to receive an OTP to reset your password.
+        </p>
+        <form id="forgot-password-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="forgot-email">Email address</label>
+            <input class="form-control" type="email" id="forgot-email" placeholder="you@example.com" required />
+          </div>
+          <p id="forgot-error" class="form-error" style="margin-bottom:12px;"></p>
+          <p id="forgot-success" class="form-success" style="margin-bottom:12px; color:var(--success); font-size:0.85rem; display:none;"></p>
+          <button type="submit" class="btn btn-primary" style="width:100%" id="forgot-submit">Send OTP</button>
+        </form>
+        <p style="text-align:center; margin-top:16px; font-size:0.85rem; color:var(--text-muted)">
+          <a href="#" onclick="switchTab('login')" style="color:var(--accent); font-weight:600;">Back to Login</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- ── Reset Password Form ── -->
+    <div id="form-reset-password" style="display:none;">
+      <div class="card">
+        <h2 class="card-title" style="margin-bottom:8px;">Set New Password 🔑</h2>
+        <p style="color:var(--text-muted); font-size:0.83rem; margin-bottom:18px;">
+          Enter the 6-digit OTP sent to your email along with your new password.
+        </p>
+        <form id="reset-password-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="reset-otp">6-Digit OTP</label>
+            <input class="form-control" type="text" id="reset-otp" placeholder="123456" maxlength="6" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reset-new-password">New Password</label>
+            <input class="form-control" type="password" id="reset-new-password" placeholder="Min. 6 characters" required />
+          </div>
+          <p id="reset-error" class="form-error" style="margin-bottom:12px;"></p>
+          <button type="submit" class="btn btn-primary" style="width:100%" id="reset-submit">Reset Password</button>
+        </form>
+        <p style="text-align:center; margin-top:16px; font-size:0.85rem; color:var(--text-muted)">
+          <a href="#" onclick="switchTab('login')" style="color:var(--accent); font-weight:600;">Cancel</a>
         </p>
       </div>
     </div>
@@ -165,6 +236,16 @@ function switchTab(tab) {
   document.getElementById('form-login').style.display   = tab === 'login'    ? 'block' : 'none';
   document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
   document.getElementById('form-admin').style.display   = tab === 'admin'    ? 'block' : 'none';
+  
+  if (document.getElementById('form-verify-otp')) {
+    document.getElementById('form-verify-otp').style.display = tab === 'verify-otp' ? 'block' : 'none';
+  }
+  if (document.getElementById('form-forgot-password')) {
+    document.getElementById('form-forgot-password').style.display = tab === 'forgot-password' ? 'block' : 'none';
+  }
+  if (document.getElementById('form-reset-password')) {
+    document.getElementById('form-reset-password').style.display = tab === 'reset-password' ? 'block' : 'none';
+  }
 
   ['login','register','admin'].forEach(t => {
     document.getElementById('tab-' + t)?.classList.toggle('active', t === tab);

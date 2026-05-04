@@ -10,8 +10,8 @@ const User = require('../models/User');
 
 const ADMIN = {
   name: 'Admin',
-  email: 'madhusudan@marketdatabank.com',
-  password: 'Admin@MDB#2024',
+  email: 'adarshkumar@marketdatabank.com',
+  password: 'admin@1234',
   role: 'admin',
 };
 
