@@ -1,0 +1,72 @@
+[
+  {
+    "Currency": "Bitcoin",
+    "Symbol": "BTC",
+    "Rank": 1,
+    "PriceUSD": 63500.25,
+    "MarketCap": 1250000000000,
+    "Volume24h": 35000000000,
+    "CirculatingSupply": 19680000,
+    "AllTimeHigh": 73750.00
+  },
+  {
+    "Currency": "Ethereum",
+    "Symbol": "ETH",
+    "Rank": 2,
+    "PriceUSD": 3105.50,
+    "MarketCap": 375000000000,
+    "Volume24h": 15000000000,
+    "CirculatingSupply": 120000000,
+    "AllTimeHigh": 4891.70
+  },
+  {
+    "Currency": "Tether",
+    "Symbol": "USDT",
+    "Rank": 3,
+    "PriceUSD": 1.00,
+    "MarketCap": 110000000000,
+    "Volume24h": 45000000000,
+    "CirculatingSupply": 110000000000,
+    "AllTimeHigh": 1.02
+  },
+  {
+    "Currency": "Solana",
+    "Symbol": "SOL",
+    "Rank": 4,
+    "PriceUSD": 145.20,
+    "MarketCap": 65000000000,
+    "Volume24h": 4200000000,
+    "CirculatingSupply": 447000000,
+    "AllTimeHigh": 260.06
+  },
+  {
+    "Currency": "Binance Coin",
+    "Symbol": "BNB",
+    "Rank": 5,
+    "PriceUSD": 590.80,
+    "MarketCap": 88000000000,
+    "Volume24h": 1800000000,
+    "CirculatingSupply": 149000000,
+    "AllTimeHigh": 690.93
+  },
+  {
+    "Currency": "Ripple",
+    "Symbol": "XRP",
+    "Rank": 6,
+    "PriceUSD": 0.52,
+    "MarketCap": 28000000000,
+    "Volume24h": 1200000000,
+    "CirculatingSupply": 54000000000,
+    "AllTimeHigh": 3.84
+  },
+  {
+    "Currency": "Dogecoin",
+    "Symbol": "DOGE",
+    "Rank": 7,
+    "PriceUSD": 0.15,
+    "MarketCap": 21000000000,
+    "Volume24h": 1500000000,
+    "CirculatingSupply": 140000000000,
+    "AllTimeHigh": 0.73
+  }
+]
