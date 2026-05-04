@@ -312,8 +312,7 @@ async function downloadFile(dataset) {
   dlBtn.style.pointerEvents = 'none';
 
   try {
-    const BACKEND = 'https://marketdatabank-backend.onrender.com/api';
-    const response = await fetch(`${BACKEND}/datasets/${dataset._id}/download`);
+    const response = await fetch(`/api/datasets/${dataset._id}/download`);
 
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
