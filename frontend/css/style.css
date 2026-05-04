@@ -206,6 +206,8 @@ textarea.form-control { resize: vertical; min-height: 100px; }
 .form-hint { font-size: 0.78rem; color: var(--text-muted); }
 .form-error { font-size: 0.8rem; color: var(--danger); }
 
+/* Fix dropdown menu contrast */
+select.form-control option { background: #1e293b; color: #f1f5f9; }
 /* ── File Upload Zone ── */
 .file-drop-zone {
   border: 2px dashed var(--border); border-radius: var(--radius-lg);
