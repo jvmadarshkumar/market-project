@@ -1,52 +1,46 @@
-const nodemailer = require('nodemailer');
-const dns = require('dns');
+// We are using the Brevo HTTP API to bypass Render's strict SMTP (Port 587) block.
+// This uses standard web traffic (Port 443) which is always allowed.
 
-// Force Node.js to use IPv4. Render's free tier often fails to route IPv6 traffic,
-// causing ENETUNREACH errors when connecting to smtp.gmail.com.
-dns.setDefaultResultOrder('ipv4first');
 const sendEmail = async (options) => {
-  let transporter;
-
-  // If no credentials are provided in .env, use Ethereal for testing
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.log('No email credentials found in .env, generating Ethereal test account...');
-    let testAccount = await nodemailer.createTestAccount();
-    transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false,
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
-    });
-  } else {
-    // For real production (e.g. Gmail)
-    transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false, // use STARTTLS
-      requireTLS: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+  // Fallback if environment variables aren't set yet
+  if (!process.env.BREVO_API_KEY || !process.env.EMAIL_USER) {
+    console.warn('⚠️ Missing BREVO_API_KEY or EMAIL_USER. Email was NOT sent. Message was:');
+    console.warn(options.message);
+    return;
   }
 
-  const mailOptions = {
-    from: `"Market Databank" <${process.env.EMAIL_USER || 'test@ethereal.email'}>`,
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-    html: options.htmlMessage || `<p>${options.message}</p>`,
-  };
+  try {
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        sender: {
+          name: "Market Databank",
+          email: process.env.EMAIL_USER // This must be the email verified in Brevo
+        },
+        to: [
+          { email: options.email }
+        ],
+        subject: options.subject,
+        htmlContent: options.htmlMessage || `<p>${options.message}</p>`,
+        textContent: options.message
+      })
+    });
 
-  const info = await transporter.sendMail(mailOptions);
-  
-  // If we are using ethereal, log the URL to view the message
-  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('Brevo API Error:', errorData);
+      throw new Error('Failed to send email via Brevo API');
+    }
+
+    console.log(`✅ Email successfully sent to ${options.email} via Brevo API`);
+  } catch (err) {
+    console.error('Email sending failed:', err);
+    throw err;
   }
 };
 
