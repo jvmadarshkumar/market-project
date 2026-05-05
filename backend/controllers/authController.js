@@ -42,10 +42,26 @@ const signup = async (req, res) => {
     // Send OTP via email
     const sendEmail = require('../utils/sendEmail');
     const message = `Your OTP for Market Databank registration is: ${otp}. It is valid for 10 minutes.`;
+    const htmlMessage = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="color: #0f172a; margin: 0;">📊 Market Databank</h1>
+        </div>
+        <h2 style="color: #1e293b; text-align: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">Verify Your Email Address</h2>
+        <p style="color: #475569; font-size: 16px; line-height: 1.5;">Hello <strong>${name}</strong>,</p>
+        <p style="color: #475569; font-size: 16px; line-height: 1.5;">Thank you for registering. To securely complete your account setup, please use the 6-digit verification code below:</p>
+        <div style="text-align: center; margin: 35px 0;">
+          <span style="display: inline-block; font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #4f46e5; background-color: #e0e7ff; padding: 15px 30px; border-radius: 10px; border: 2px dashed #a5b4fc;">${otp}</span>
+        </div>
+        <p style="color: #64748b; font-size: 14px; text-align: center; margin-top: 30px;">⏳ This secure code will expire in exactly <strong>10 minutes</strong>.</p>
+        <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 20px;">If you did not request this email, you can safely ignore it.</p>
+      </div>
+    `;
     sendEmail({
       email: user.email,
       subject: 'Market Databank - Verify Your Account',
-      message
+      message,
+      htmlMessage
     }).catch(err => console.error('Email error:', err));
 
     res.status(201).json({
@@ -134,6 +150,7 @@ const verifyOTP = async (req, res) => {
     res.status(500).json({ message: 'Server error during verification.' });
   }
 };
+
 // POST /api/auth/forgot-password
 const forgotPassword = async (req, res) => {
   try {
@@ -155,10 +172,26 @@ const forgotPassword = async (req, res) => {
 
     const sendEmail = require('../utils/sendEmail');
     const message = `Your OTP for password reset is: ${otp}. It is valid for 10 minutes.`;
+    const htmlMessage = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h1 style="color: #0f172a; margin: 0;">📊 Market Databank</h1>
+        </div>
+        <h2 style="color: #1e293b; text-align: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">Password Reset Request 🔒</h2>
+        <p style="color: #475569; font-size: 16px; line-height: 1.5;">We received a request to reset the password for your Market Databank account.</p>
+        <p style="color: #475569; font-size: 16px; line-height: 1.5;">Use the secure 6-digit code below to set a new password:</p>
+        <div style="text-align: center; margin: 35px 0;">
+          <span style="display: inline-block; font-size: 36px; font-weight: 800; letter-spacing: 8px; color: #dc2626; background-color: #fee2e2; padding: 15px 30px; border-radius: 10px; border: 2px dashed #fca5a5;">${otp}</span>
+        </div>
+        <p style="color: #64748b; font-size: 14px; text-align: center; margin-top: 30px;">⏳ This secure code will expire in exactly <strong>10 minutes</strong>.</p>
+        <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 20px; border-top: 1px solid #f1f5f9; padding-top: 20px;">If you did not request a password reset, please ignore this email and your password will remain unchanged.</p>
+      </div>
+    `;
     sendEmail({
       email: user.email,
       subject: 'Market Databank - Password Reset',
-      message
+      message,
+      htmlMessage
     }).catch(err => console.error('Email error:', err));
 
     res.status(200).json({ message: 'If an account exists with that email, an OTP has been sent.' });
